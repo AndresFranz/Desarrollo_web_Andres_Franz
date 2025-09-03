@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Listado de adopciones</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .wrapper { max-width: 1100px; margin: 0 auto; padding: 16px; }
+
+    .tabla-avisos {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .tabla-avisos th, .tabla-avisos td {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 10px;
+      text-align: center;
+    }
+    .tabla-avisos thead th { background: #e2e8f0; font-weight: 700; }
+    .tabla-avisos tbody tr:nth-child(odd){ background:#f8fafc; }
+    .tabla-avisos tbody tr:hover { background:#eef2ff; cursor:pointer; }
+
+    .thumb-320 { width:320px; height:240px; object-fit:cover; border:1px solid #e5e7eb; border-radius:8px; }
+
+    #val-box {
+      display: none;             
+      margin-top: 16px;
+      padding: 16px;
+      border-left: 6px solid #2563eb;
+      background: #f1f5ff;
+      border-radius: 12px;
+    }
+    #val-box h3 { margin: 0 0 12px 0; text-align:center; }
+    #val-box table { width:100%; border-collapse: collapse; background:#fff; border:1px solid #cbd5e1; border-radius:12px; overflow:hidden; }
+    #val-box th, #val-box td { border-bottom:1px solid #e5e7eb; padding:10px; text-align:left; }
+    #val-box th { width: 240px; background:#f8fafc; }
+    #val-foto { width:320px; height:240px; object-fit:cover; border:1px solid #e5e7eb; border-radius:8px; cursor:pointer; }
+
+    .acciones { margin-top:16px; display:flex; gap:10px; justify-content:center; }
+    .btn { padding:10px 14px; border-radius:8px; border:0; cursor:pointer; font-weight:600; }
+    .btn-primary { background:#2563eb; color:#fff; }
+    .btn-secondary { background:#e2e8f0; color:#111; }
+
+    #lightbox { position:fixed; inset:0; background:rgba(0,0,0,.7); display:none; align-items:center; justify-content:center; z-index:1000; padding:16px; }
+    #lightbox[aria-hidden="false"] { display:flex; }
+    .lightbox-content { background:#fff; padding:16px; border-radius:12px; text-align:center; }
+    .lightbox-img { width:800px; height:600px; object-fit:cover; border:1px solid #e5e7eb; border-radius:8px; }
+  </style>
+</head>
+<body>
+  <header class="wrapper">
+    <h1>Listado de adopciones</h1>
+  </header>
+
+  <main class="wrapper">
+    <h2>Ultimos 5 avisos</h2>
+
+    <table class="tabla-avisos" id="tabla-listado" aria-describedby="desc">
+      <caption id="desc" style="text-align:left;padding:8px;">Haga clic en una fila para ver el detalle. Clic en la foto (320×240) para ampliar (800×600).</caption>
+      <thead>
+        <tr>
+          <th>Fecha publicación</th>
+          <th>Fecha entrega</th>
+          <th>Comuna</th>
+          <th>Sector</th>
+          <th>Cantidad</th>
+          <th>Tipo</th>
+          <th>Edad</th>
+          <th>Nombre contacto</th>
+          <th>Contacto</th>
+          <th>Total fotos</th>
+          <th>Foto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-id="1">
+          <td>2025-09-01 15:00</td>
+          <td>2025-09-03 19:00</td>
+          <td>Las Condes</td>
+          <td>Los Dominicos</td>
+          <td>1</td>
+          <td>Gato</td>
+          <td>2 meses</td>
+          <td>Camila R.</td>
+          <td>camila@gmail.com</td>
+          <td>1</td>
+          <td><img class="thumb-320" src="imagenes/gato-negro.png" alt="Gato negro" data-full="imagenes/gato-negro.png"></td>
+        </tr>
+        <tr data-id="2">
+          <td>2025-09-01 10:30</td>
+          <td>2025-09-03 17:00</td>
+          <td>Ñuñoa</td>
+          <td>Plaza</td>
+          <td>2</td>
+          <td>Perro</td>
+          <td>3 meses</td>
+          <td>Jorge M.</td>
+          <td>jorge@hotmail.com</td>
+          <td>1</td>
+          <td><img class="thumb-320" src="imagenes/perros-cafe.png" alt="Dos perros café" data-full="imagenes/perros-cafe.png"></td>
+        </tr>
+        <tr data-id="3">
+          <td>2025-08-31 17:00</td>
+          <td>2025-09-02 20:30</td>
+          <td>Santiago</td>
+          <td>Parque O’Higgins</td>
+          <td>2</td>
+          <td>Gato</td>
+          <td>1 mes</td>
+          <td>Ivana K.</td>
+          <td>ivana@hotmail.com</td>
+          <td>1</td>
+          <td><img class="thumb-320" src="imagenes/gatos-blanco-y-gris.png" alt="Gatitos blanco y gris" data-full="imagenes/gatos-blanco-y-gris.png"></td>
+        </tr>
+        <tr data-id="4">
+          <td>2025-08-31 13:30</td>
+          <td>2025-09-01 16:00</td>
+          <td>Providencia</td>
+          <td>Parque Bustamante</td>
+          <td>1</td>
+          <td>Perro</td>
+          <td>5 meses</td>
+          <td>Diego L.</td>
+          <td>diego@gmail.com</td>
+          <td>1</td>
+          <td><img class="thumb-320" src="imagenes/perro-negro.png" alt="Perro negro" data-full="imagenes/perro-negro.png"></td>
+        </tr>
+        <tr data-id="5">
+          <td>2025-08-30 18:00</td>
+          <td>2025-08-31 14:00</td>
+          <td>Maipú</td>
+          <td>Plaza de Maipú</td>
+          <td>1</td>
+          <td>Gato</td>
+          <td>4 meses</td>
+          <td>Sofía V.</td>
+          <td>sofia@gmail.com</td>
+          <td>1</td>
+          <td><img class="thumb-320" src="imagenes/gato-siames.png" alt="Gato siamés" data-full="imagenes/gato-siames.png"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- CUADRO DE INFORMACIÓN -->
+    <section id="info-box" aria-live="polite">
+      <h3>Detalle del aviso</h3>
+      <table class="tabla-avisos" aria-label="Detalle">
+        <tbody>
+          <tr><th>Fecha publicación</th><td><span id="d-pub"></span></td></tr>
+          <tr><th>Fecha entrega</th><td><span id="d-ent"></span></td></tr>
+          <tr><th>Comuna</th><td><span id="d-comuna"></span></td></tr>
+          <tr><th>Sector</th><td><span id="d-sector"></span></td></tr>
+          <tr><th>Cantidad</th><td><span id="d-cantidad"></span></td></tr>
+          <tr><th>Tipo</th><td><span id="d-tipo"></span></td></tr>
+          <tr><th>Edad</th><td><span id="d-edad"></span></td></tr>
+          <tr><th>Nombre contacto</th><td><span id="d-nombre"></span></td></tr>
+          <tr><th>Contacto</th><td><span id="d-contacto"></span></td></tr>
+          <tr><th>Total fotos</th><td><span id="d-total"></span></td></tr>
+          <tr>
+            <th>Foto </th>
+            <td>
+              <img id="info-foto" src="" alt="Foto del aviso" data-full="">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="acciones">
+        <button type="button" class="btn btn-secondary" id="btn-volver-listado">Volver al listado</button>
+        <a type="button" class="btn btn-secondary" href="index.html">Volver a la portada</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrapper">
+    <p>CC5002 - Tarea 1 - 2025</p>
+  </footer>
+
+  <!-- FOTO 800×600 -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="lightbox-content">
+      <img id="lightbox-img" class="lightbox-img" src="" alt="Imagen ampliada">
+      <div class="acciones">
+        <button type="button" class="btn btn-primary" id="lb-cerrar">Cerrar</button>
+        <a class="btn btn-secondary" id="lb-abrir" href="#" target="_blank" rel="noopener">Abrir en pestaña</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="clicksListado.js" defer></script>
+</body>
+</html>
+
+

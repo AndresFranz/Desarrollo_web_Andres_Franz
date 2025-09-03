@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Estadísticas</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .wrapper { max-width: 1100px; margin: 0 auto; padding: 16px; }
+
+    .card {
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .card h3 { margin-top: 0; text-align: center; }
+
+    .grafico {
+      display: block;
+      width: 800px;      
+      max-width: 100%;  
+      height: auto;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      margin: 0 auto 10px;
+    }
+
+    .subtitulo {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #334155;
+      margin: 0 0 6px 0;
+    }
+
+    .navlist {
+      list-style: none;
+      display: inline-flex;
+      gap: 12px;
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <header class="wrapper">
+    <h1>Estadísticas</h1>
+    <nav>
+      <ul class="navlist">
+        <li><a href="index.html">Portada</a></li>
+        <li><a href="agregar.html">Agregar aviso</a></li>
+        <li><a href="listado.html">Listado</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="wrapper">
+    <h2>Resumen visual</h2>
+
+    <section class="card" aria-labelledby="t-linea">
+      <h3 id="t-linea">Avisos por día (últimos 14 días)</h3>
+      <img
+        class="grafico"
+        src="imagenes/lineas.png"
+        alt="Gráfico de línea con avisos por día en las últimas dos semanas"
+      />
+    </section>
+
+    <section class="card" aria-labelledby="t-torta">
+      <h3 id="t-torta">Distribución por tipo</h3>
+      <img
+        class="grafico"
+        src="imagenes/torta.png"
+        alt="Gráfico de torta con proporción de gatos y perros"
+      />
+    </section>
+
+    <section class="card" aria-labelledby="t-barras">
+      <h3 id="t-barras">Avisos por mes (comparativo)</h3>
+      <img
+        class="grafico"
+        src="imagenes/barras.png"
+        alt="Gráfico de barras comparando avisos por mes de gatos y perros"
+      />
+    </section>
+  </main>
+
+  <footer class="wrapper">
+    <p>CC5002 - Tarea 1 - 2025</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Adopciones{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Sistema de Adopciones</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Inicio</a>
+            <a href="{{ url_for('agregar') }}">Agregar aviso de adopción</a>
+            <a href="{{ url_for('listado') }}">Listado de avisos</a>
+            <a href="{{ url_for('estadisticas') }}">estadísticas</a>
+        </nav>
+    </header>
+
+    {% with msgs = get_flashed_messages(with_categories=true) %}
+        {% if msgs %}
+            <div class="flash-area">
+                {% for cat, msg in msgs %}
+                    <div class="flash flash-{{ cat }}">{{ msg }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <style>
+        .flash-area { max-width: 1100px; margin: 12px auto; padding: 0 16px; }
+        .flash { padding: 12px 14px; border-left: 6px solid; border-radius: 8px; margin-bottom: 10px; }
+        .flash-success { background:#ddffdd; border-left-color:#22c55e; }
+        .flash-error   { background:#ffefef; border-left-color:#ef4444; }
+    </style>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; Tarea 2 - Webs</p>
+    </footer>
+</body>
+</html>

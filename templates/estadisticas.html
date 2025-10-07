@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Estadísticas{% endblock %}
+
+{% block content %}
+<main class="wrapper">
+  <h2>Resumen visual</h2>
+
+  <section class="card" aria-labelledby="t-linea">
+    <h3 id="t-linea">Avisos por día (últimos 14 días)</h3>
+    <img
+      class="grafico"
+      src="{{ url_for('static', filename='imagenes/lineas.png') }}"
+      alt="Gráfico de línea con avisos por día en las últimas dos semanas"
+    />
+  </section>
+
+  <section class="card" aria-labelledby="t-torta">
+    <h3 id="t-torta">Distribución por tipo</h3>
+    <img
+      class="grafico"
+      src="{{ url_for('static', filename='imagenes/torta.png') }}"
+      alt="Gráfico de torta con proporción de gatos y perros"
+    />
+  </section>
+
+  <section class="card" aria-labelledby="t-barras">
+    <h3 id="t-barras">Avisos por mes (comparativo)</h3>
+    <img
+      class="grafico"
+      src="{{ url_for('static', filename='imagenes/barras.png') }}"
+      alt="Gráfico de barras comparando avisos por mes de gatos y perros"
+    />
+  </section>
+</main>
+
+<style>
+  .wrapper { max-width: 1100px; margin: 0 auto; padding: 16px; }
+
+  .card {
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .card h3 { margin-top: 0; text-align: center; }
+
+  .grafico {
+    display: block;
+    width: 800px;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin: 0 auto 10px;
+  }
+</style>
+{% endblock %}
+

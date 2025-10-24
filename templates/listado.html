@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Listado de adopciones{% endblock %}
+
+{% block content %}
+<main class="wrapper">
+  <h2>Listado de adopciones</h2>
+
+  <table class="tabla-avisos" id="tabla-listado" aria-describedby="desc">
+    <caption id="desc" style="text-align:left;padding:8px;">
+      Haga clic en una fila para ver el detalle. Clic en la foto (320×240) para ampliar (800×600).
+    </caption>
+    <thead>
+      <tr>
+        <th>Fecha publicación</th>
+        <th>Fecha entrega</th>
+        <th>Comuna</th>
+        <th>Sector</th>
+        <th>Cantidad</th>
+        <th>Tipo</th>
+        <th>Edad</th>
+        <th>Nombre contacto</th>
+        <th>Contacto</th>
+        <th>Total fotos</th>
+        <th>Foto</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if avisos and avisos|length > 0 %}
+        {% for a in avisos %}
+          <tr data-id="{{ a.id }}">
+            <td>{{ a.fecha_ingreso.strftime('%Y-%m-%d %H:%M') if a.fecha_ingreso else '' }}</td>
+            <td>{{ a.fecha_entrega.strftime('%Y-%m-%d %H:%M') if a.fecha_entrega else '' }}</td>
+            <td>{{ a.comuna.nombre }}</td>
+            <td>{{ a.sector or '' }}</td>
+            <td>{{ a.cantidad }}</td>
+            <td>{{ a.tipo|capitalize }}</td>
+            <td>{{ a.edad }} {{ 'meses' if a.unidad_medida == 'm' else 'años' }}</td>
+            <td>{{ a.nombre }}</td>
+            <td>{{ a.email }}</td>
+            <td>{{ a.fotos|length }}</td>
+            <td>
+              {% if a.fotos and a.fotos|length > 0 %}
+                <img class="thumb-320"
+                     src="{{ url_for('static', filename=a.fotos[0].ruta_archivo) }}"
+                     alt="Foto de {{ a.tipo }}"
+                     data-full="{{ url_for('static', filename=a.fotos[0].ruta_archivo) }}">
+              {% else %}
+                —
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      {% else %}
+        <tr><td colspan="11">No hay avisos registrados.</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+  {% if total_paginas and total_paginas > 1 %}
+    <nav class="paginacion" aria-label="Paginación de avisos"
+         style="margin-top:14px; display:flex; gap:8px; justify-content:center;">
+      {% if page > 1 %}
+        <a class="btn btn-secondary" href="{{ url_for('listado', page=page-1) }}">&laquo; Anterior</a>
+      {% endif %}
+      <span style="padding:8px 12px;">Página {{ page }} de {{ total_paginas }}</span>
+      {% if page < total_paginas %}
+        <a class="btn btn-secondary" href="{{ url_for('listado', page=page+1) }}">Siguiente &raquo;</a>
+      {% endif %}
+    </nav>
+  {% endif %}
+
+  <section id="info-box" aria-live="polite" style="display:none; margin-top:16px;">
+    <h3>Detalle del aviso</h3>
+    <table class="tabla-avisos" aria-label="Detalle">
+      <tbody>
+        <tr><th>Fecha publicación</th><td><span id="d-pub"></span></td></tr>
+        <tr><th>Fecha entrega</th><td><span id="d-ent"></span></td></tr>
+        <tr><th>Comuna</th><td><span id="d-comuna"></span></td></tr>
+        <tr><th>Sector</th><td><span id="d-sector"></span></td></tr>
+        <tr><th>Cantidad</th><td><span id="d-cantidad"></span></td></tr>
+        <tr><th>Tipo</th><td><span id="d-tipo"></span></td></tr>
+        <tr><th>Edad</th><td><span id="d-edad"></span></td></tr>
+        <tr><th>Nombre contacto</th><td><span id="d-nombre"></span></td></tr>
+        <tr><th>Contacto</th><td><span id="d-contacto"></span></td></tr>
+        <tr><th>Total fotos</th><td><span id="d-total"></span></td></tr>
+        <tr>
+          <th>Foto</th>
+          <td><img id="info-foto" src="" alt="Foto del aviso" data-full="" style="width:320px; height:240px; object-fit:cover; cursor:pointer;"></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="acciones" style="margin-top:12px; display:flex; gap:10px; justify-content:center;">
+      <button type="button" class="btn btn-secondary" id="btn-volver-listado">Volver al listado</button>
+      <a class="btn btn-secondary" href="{{ url_for('index') }}">Volver a la portada</a>
+    </div>
+  </section>
+
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-hidden="true"
+       style="position:fixed; inset:0; background:rgba(0,0,0,.7); display:none; align-items:center; justify-content:center; z-index:1000; padding:16px;">
+    <div class="lightbox-content" style="background:#fff; padding:16px; border-radius:12px; text-align:center;">
+      <img id="lightbox-img" class="lightbox-img" src="" alt="Imagen ampliada" style="width:800px; height:600px; object-fit:cover; border:1px solid #e5e7eb; border-radius:8px;">
+      <div class="acciones" style="margin-top:10px; display:flex; gap:10px; justify-content:center;">
+        <button type="button" class="btn btn-primary" id="lb-cerrar">Cerrar</button>
+        <a class="btn btn-secondary" id="lb-abrir" href="#" target="_blank" rel="noopener">Abrir en pestaña</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<style>
+  .clickable-row:hover { background:#eef2ff; cursor:pointer; }
+  .thumb-320 { width:320px; height:240px; object-fit:cover; border:1px solid #e5e7eb; border-radius:8px; }
+</style>
+
+<script src="{{ url_for('static', filename='js/clicksListado.js') }}" defer></script>
+{% endblock %}
+
+
+
+

@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Estadísticas{% endblock %}
+
+{% block content %}
+<main class="wrapper">
+  <h2>Estadísticas</h2>
+
+  <section class="card">
+    <h3>Avisos por día (últimos 14 días)</h3>
+    <div id="hc-linea14" style="max-width:800px; height:320px; margin:0 auto;"></div>
+  </section>
+
+  <section class="card">
+    <h3>Distribución por tipo</h3>
+    <div id="hc-torta" style="max-width:600px; height:360px; margin:0 auto;"></div>
+  </section>
+
+  <section class="card">
+    <h3>Avisos por mes (año completo)</h3>
+    <div id="hc-barras12" style="max-width:800px; height:340px; margin:0 auto;"></div>
+  </section>
+</main>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+<script>
+// --- Gráfico de línea (últimos 14 días) ---
+fetch("/api/stats/linea14")
+  .then(res => res.json())
+  .then(data => {
+    const categories = data.map(p => p.dia);
+    const values = data.map(p => p.total);
+
+    Highcharts.chart('hc-linea14', {
+      title: { text: null },
+      xAxis: { categories, tickInterval: 1 },
+      yAxis: { title: { text: null }, allowDecimals: false, min: 0 },
+      legend: { enabled: false },
+      tooltip: { pointFormat: '<b>{point.y}</b> avisos' },
+      series: [{ name: 'Avisos por día', data: values, type: 'line' }],
+      credits: { enabled: false }
+    });
+  })
+  .catch(e => console.error("Error línea14:", e));
+
+
+// --- Gráfico de torta (distribución por tipo) ---
+fetch("/api/stats/torta")
+  .then(res => res.json())
+  .then(d => {
+    const total = (d.gato || 0) + (d.perro || 0) || 1;
+
+    Highcharts.chart('hc-torta', {
+      chart: { type: 'pie' },
+      title: { text: null },
+      tooltip: {
+        pointFormatter: function () {
+          const pct = ((this.y / total) * 100).toFixed(1);
+          return `<span style="color:${this.color}">\u25CF</span> ${this.name}: <b>${this.y}</b> (${pct}%)<br/>`;
+        }
+      },
+      plotOptions: {
+        pie: {
+          dataLabels: { 
+            enabled: true,
+            formatter: function () {
+              const pct = ((this.y / total) * 100).toFixed(1);
+              return `${this.point.name}: ${pct}%`;
+            }
+          }
+        }
+      },
+      series: [{
+        name: 'Cantidad',
+        data: [
+          { name: 'Gato',  y: d.gato  || 0 },
+          { name: 'Perro', y: d.perro || 0 }
+        ]
+      }],
+      credits: { enabled: false },
+      legend: { enabled: true }
+    });
+  })
+  .catch(e => console.error("Error torta:", e));
+
+
+// --- Gráfico de barras (12 meses del año) ---
+fetch("/api/stats/barras12m")
+  .then(res => res.json())
+  .then(d => {
+    Highcharts.chart('hc-barras12', {
+      chart: { type: 'column' },
+      title: { text: `Avisos por mes — ${d.anio}` },
+      xAxis: { categories: d.labels },
+      yAxis: { min: 0, title: { text: null }, allowDecimals: false },
+      legend: { align: 'center', verticalAlign: 'bottom' },
+      tooltip: { shared: true },
+      plotOptions: { column: { grouping: true, pointPadding: 0.1, borderWidth: 0 } },
+      series: [
+        { name: 'Gato',  data: d.gato  || [] },
+        { name: 'Perro', data: d.perro || [] }
+      ],
+      credits: { enabled: false }
+    });
+  })
+  .catch(e => console.error("Error barras12:", e));
+</script>
+
+{% endblock %}
+
+

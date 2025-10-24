@@ -1,0 +1,227 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  color: #1f2937;         
+  background: #f8fafc;     
+  text-align: center;
+}
+
+header h1 {
+  margin-top: 50px;
+  margin-bottom: 50px;
+
+}
+
+/* ===== Contenedor centrado ===== */
+body > header,
+body > main,
+body > footer {
+  max-width: 960px;
+  margin: 0 auto;          
+  padding: 0 16px;
+}
+
+header { padding: 24px 16px 8px; }
+h1 { margin: 0 0 12px; font-size: 1.8rem; color: #0f172a; }
+
+/* ===== Navegación como botones ===== */
+nav ul {
+  list-style: none;
+  display: inline-flex;
+  gap: 12px;
+  padding: 0;
+  margin: 0 0 12px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  display: inline-block;
+  text-decoration: none;
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;     
+  border-radius: 10px;
+  background: #ffffff;
+  transition: transform 0.06s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+nav a:hover {
+  background: #f1f5f9;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.08);
+  transform: translateY(-1px);
+}
+
+nav a:focus {
+  outline: 3px solid #93c5fd;    
+  outline-offset: 2px;
+}
+
+/* ===== Títulos de sección ===== */
+main h2 { margin: 20px 0 12px; font-size: 1.4rem; color: #0f172a; }
+
+/* ===== Tabla de avisos ===== */
+.tabla-avisos {
+  width: 100%;
+  margin: 0 auto;
+  border-collapse: collapse;      
+  background: #ffffff;
+  border: 1px solid #cbd5e1;      
+  border-radius: 12px;            
+  overflow: hidden;             
+  margin-bottom: 100px;
+}
+
+/* Encabezado */
+.tabla-avisos thead th {
+  background: #e2e8f0;        
+  color: #0f172a;
+  text-align: center;
+  font-weight: 700;
+  padding: 10px 8px;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+/* Celdas */
+.tabla-avisos td {
+  padding: 8px 10px;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Filas zebra + hover */
+.tabla-avisos tbody tr:nth-child(odd) { background: #f8fafc; }
+.tabla-avisos tbody tr:hover { background: #eef2ff; }
+
+/* Imágenes en la tabla */
+.tabla-avisos img {
+  display: block;
+  width: 200px;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  margin: 0 auto;
+}
+
+/* ===== Responsivo ===== */
+@media (max-width: 640px) {
+  nav ul { gap: 8px; }
+  nav a { padding: 8px 12px; font-size: 0.95rem; }
+  .tabla-avisos td, .tabla-avisos th { padding: 8px 6px; }
+}
+
+/* ===== Formulario general ===== */
+form {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 700px;
+  margin: 0 auto 40px;  
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  text-align: left;      
+}
+
+/* Agrupaciones (fieldset) */
+fieldset {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background: #dbe3ea;
+}
+
+legend {
+  font-weight: bold;
+  color: #0f172a;
+  padding: 0 6px;
+  background: #dbe3ea;
+  border-radius: 8px;
+}
+
+/* Labels */
+label {
+  display: inline-block;
+  width: 180px;           
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1f2937;
+}
+
+/* Inputs y selects */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="datetime-local"],
+input[type="file"],
+select,
+textarea {
+  padding: 6px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: calc(100% - 200px); 
+  max-width: 400px;
+}
+
+/* Textarea */
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Botones */
+button[type="submit"],
+button[type="button"] {
+  display: inline-block;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #5e86de;   
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+button[type="submit"]:hover,
+button[type="button"]:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+button[type="submit"]:active,
+button[type="button"]:active {
+  background: #1e40af;
+  transform: translateY(1px);
+}
+
+#val-box {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-left: 6px solid transparent; 
+  border-radius: 8px;
+  text-align: left;                 
+}
+
+#val-box.error {
+  background: #ffdddd;
+  border-left-color: #f44336;
+}
+
+#val-box.ok {
+  background: #ddffdd;
+  border-left-color: #4CAF50;
+}
+
+#pieChart {
+  width: 600px !important;
+  height: 600px !important;
+  margin: 0 auto;
+  display: block;
+}
+

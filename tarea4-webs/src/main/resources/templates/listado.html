@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Avisos</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<header class="site-header">
+    <h1>Adopción de Mascotas</h1>
+
+    <nav class="main-nav">
+        <a th:href="@{/}">Portada</a>
+        <a th:href="@{/listado}">Listado</a>
+    </nav>
+</header>
+
+<main class="wrapper">
+    <h2>Listado de avisos de adopción</h2>
+
+    <table class="tabla-avisos">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Fecha publicación</th>
+            <th>Sector</th>
+            <th>Cantidad</th>
+            <th>Tipo</th>
+            <th>Edad</th>
+            <th>Comuna</th>
+            <th>Nota</th>
+            <th></th> 
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="a : ${avisos}">
+            <td th:text="${a.id}"></td>
+            <td th:text="${#temporals.format(a.fechaIngreso, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${a.sector != null ? a.sector : ''}"></td>
+            <td th:text="${a.cantidad}"></td>
+            <td th:text="${a.tipo}"></td>
+            <td th:text="${a.edad + ' ' + (a.unidadMedida == 'm' ? 'meses' : 'años')}"></td>
+            <td th:text="${a.comuna.nombre}"></td>
+
+            <td th:text="${a.promedioNota != null ? #numbers.formatDecimal(a.promedioNota, 1, 2) : '-'}"></td>
+
+            <td>
+                evaluar
+            </td>
+        </tr>
+
+        <tr th:if="${avisos == null or #lists.isEmpty(avisos)}">
+            <td colspan="9">No hay avisos registrados.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="paginacion">
+        <a th:if="${page > 1}" th:href="@{/listado(page=${page - 1})}">Anterior</a>
+
+        <span>
+            Página <span th:text="${page}"></span> de
+            <span th:text="${totalPaginas}"></span>
+        </span>
+
+        <a th:if="${page < totalPaginas}" th:href="@{/listado(page=${page + 1})}">Siguiente</a>
+    </div>
+
+</main>
+
+</body>
+</html>
+
+

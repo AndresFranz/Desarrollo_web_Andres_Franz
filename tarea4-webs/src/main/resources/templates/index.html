@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Adopción de Mascotas - Portada</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<header class="site-header">
+    <h1>Adopción de Mascotas</h1>
+
+    <nav class="main-nav">
+        <a th:href="@{/}">Portada</a>
+        <a th:href="@{/listado}">Listado</a>
+    </nav>
+</header>
+
+<main class="wrapper">
+    <h2>Últimos avisos de adopción</h2>
+
+    <table class="tabla-avisos">
+        <thead>
+        <tr>
+            <th>Fecha publicación</th>
+            <th>Comuna</th>
+            <th>Sector</th>
+            <th>Tipo</th>
+            <th>Cantidad</th>
+            <th>Edad</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="a : ${avisos}">
+            <td th:text="${#temporals.format(a.fechaIngreso, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${a.comuna.nombre}"></td>
+            <td th:text="${a.sector != null ? a.sector : ''}"></td>
+            <td th:text="${a.tipo}"></td>
+            <td th:text="${a.cantidad}"></td>
+            <td th:text="${a.edad + ' ' + (a.unidadMedida == 'm' ? 'meses' : 'años')}"></td>
+        </tr>
+
+        <tr th:if="${avisos == null or #lists.isEmpty(avisos)}">
+            <td colspan="6">No hay avisos aún.</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+</body>
+</html>
+
